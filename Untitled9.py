@@ -10,6 +10,11 @@ st.set_page_config(page_title="Local Cuisines - Explore the Flavors of the World
 def load_cuisine_data(file_path):
     try:
         data = pd.read_excel(file_path, engine='openpyxl')
+
+        # Fix typo in column name
+        if 'Specialt' in data.columns:
+            data.rename(columns={'Specialt': 'Specialty'}, inplace=True)
+
         if data.empty:
             st.error("The Excel file is empty.")
             st.stop()
