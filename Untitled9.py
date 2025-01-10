@@ -46,7 +46,7 @@ st.title('🍲 Local Cuisines')
 st.subheader('Explore the Flavors of the World')
 st.write('Discover local dishes and their specialties from various regions.')
 st.write('---')
-st.write('Guided by Dr. PRANJALI GAJBHIYE')
+st.write('Guided by Manjeet')
 
 # Sidebar filters
 st.sidebar.header('Filter Cuisines')
