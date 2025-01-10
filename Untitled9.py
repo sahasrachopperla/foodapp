@@ -25,7 +25,12 @@ file_path = 'local_cuisines_data.xlsx'
 cuisines_data = load_cuisine_data(file_path)
 
 # Ensure necessary columns are present
-required_columns = ['Cuisine Name', 'Region', 'Ingredients', 'Price Range', 'Star Rating', 'Specialty', 'Image URL']
+required_columns = [
+    'Cuisine Name', 'Region', 'Ingredients', 'Price Range', 'Star Rating', 'Specialty', 'Image URL',
+    'Country/Region', 'City', 'Preparation Style', 'Taste Profile', 'Dietary Type',
+    'Popular Restaurants', 'Average Price (₹)', 'Best Time to Eat', 'Cultural Significance',
+    'Local Pairings', 'Cuisine ID'
+]
 missing_columns = [col for col in required_columns if col not in cuisines_data.columns]
 if missing_columns:
     st.error(f"The following required columns are missing from the Excel file: {', '.join(missing_columns)}")
@@ -96,11 +101,21 @@ if apply_filters:
             # Left column for cuisine information
             with col1:
                 st.markdown(f"### {row['Cuisine Name']}")
+                st.markdown(f"**Country/Region:** {row['Country/Region']}")
+                st.markdown(f"**City:** {row['City']}")
                 st.markdown(f"**Region:** {row['Region']}")
                 st.markdown(f"**Ingredients:** {row['Ingredients']}")
+                st.markdown(f"**Preparation Style:** {row['Preparation Style']}")
+                st.markdown(f"**Taste Profile:** {row['Taste Profile']}")
+                st.markdown(f"**Dietary Type:** {row['Dietary Type']}")
+                st.markdown(f"**Popular Restaurants:** {row['Popular Restaurants']}")
                 st.markdown(f"**Price Range:** ₹{row['Price Range']}")
+                st.markdown(f"**Average Price (₹):** ₹{row['Average Price (₹)']}")
+                st.markdown(f"**Best Time to Eat:** {row['Best Time to Eat']}")
                 st.markdown(f"**Star Rating:** {row['Star Rating']} stars")
                 st.markdown(f"**Specialty:** {row['Specialty']}")
+                st.markdown(f"**Cultural Significance:** {row['Cultural Significance']}")
+                st.markdown(f"**Local Pairings:** {row['Local Pairings']}")
 
                 # Add to Wish List button
                 if st.button(f"Add {row['Cuisine Name']} to Wish List", key=index):
