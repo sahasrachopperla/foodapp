@@ -19,7 +19,7 @@ def load_cuisine_data(file_path):
         st.stop()
 
 # Local path to your uploaded file
-file_path = '/mnt/data/local_cuisines_data.xlsx'
+file_path = 'local_cuisines_data.xlsx'
 
 # Load the cuisines data
 cuisines_data = load_cuisine_data(file_path)
