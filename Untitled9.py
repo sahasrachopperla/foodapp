@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
 from openpyxl import load_workbook
 
 # Page configuration
@@ -27,10 +26,10 @@ cuisines_data = load_cuisine_data(file_path)
 
 # Ensure necessary columns are present
 required_columns = ['Cuisine Name', 'Region', 'Ingredients', 'Price Range', 'Star Rating', 'Specialty', 'Image URL']
-for col in required_columns:
-    if col not in cuisines_data.columns:
-        st.error(f"Missing column: {col}")
-        st.stop()
+missing_columns = [col for col in required_columns if col not in cuisines_data.columns]
+if missing_columns:
+    st.error(f"The following required columns are missing from the Excel file: {', '.join(missing_columns)}")
+    st.stop()
 
 # App title and description
 st.title('🍲 Local Cuisines')
@@ -43,10 +42,13 @@ st.write('Guided by Dr. PRANJALI GAJBHIYE')
 st.sidebar.header('Filter Cuisines')
 
 # Region Filter
-region_filter = st.sidebar.multiselect('Region', options=sorted(cuisines_data['Region'].unique()), default=sorted(cuisines_data['Region'].unique()))
+region_filter = st.sidebar.multiselect('Region', options=sorted(cuisines_data['Region'].dropna().unique()), default=sorted(cuisines_data['Region'].dropna().unique()))
 
 # Price Range Filter
-price_filter = st.sidebar.slider('Price Range (₹)', min_value=int(cuisines_data['Price Range'].min()), max_value=int(cuisines_data['Price Range'].max()), value=(int(cuisines_data['Price Range'].min()), int(cuisines_data['Price Range'].max())))
+price_filter = st.sidebar.slider('Price Range (₹)', 
+                                  min_value=int(cuisines_data['Price Range'].min()), 
+                                  max_value=int(cuisines_data['Price Range'].max()), 
+                                  value=(int(cuisines_data['Price Range'].min()), int(cuisines_data['Price Range'].max())))
 
 # Star Rating Filter
 star_rating = st.sidebar.selectbox('Minimum Star Rating', options=[1, 2, 3, 4, 5], index=4)
@@ -105,7 +107,7 @@ if apply_filters:
                     add_to_wish_list(row['Cuisine Name'])
 
                 # Book your experience
-                st.markdown("[👆 Book a Tasting Experience](https://forms.office.com/)\n", unsafe_allow_html=True)
+                st.markdown("[👆 Book a Tasting Experience](https://forms.office.com/)", unsafe_allow_html=True)
 
                 # Add a review button with form link
                 st.markdown(f"[📝 Add a Review](https://forms.office.com/)", unsafe_allow_html=True)
